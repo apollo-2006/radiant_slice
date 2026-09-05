@@ -14,6 +14,9 @@ public:
 
     virtual void Fire() override;
 
+    // Resets the spray pattern along with the magazine
+    virtual void Reload() override;
+
 protected:
     // The Client-Side prediction logic
     void LocalFire(float AccuracyPenalty);

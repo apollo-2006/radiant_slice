@@ -43,5 +43,14 @@ float ARadiantCharacter::GetVelocityMagnitude() const
 
 FVector ARadiantCharacter::GetHeadBoneLocation() const
 {
-    return GetMesh()->GetSocketLocation(FName("head"));
+    // The lag compensation component calls this every server tick. A character
+    // spawned without a skeletal mesh, or one whose skeleton has no "head"
+    // socket, would otherwise crash the server rather than the client.
+    const USkeletalMeshComponent* MeshComponent = GetMesh();
+    if (!MeshComponent)
+    {
+        return GetActorLocation();
+    }
+
+    return MeshComponent->GetSocketLocation(FName("head"));
 }

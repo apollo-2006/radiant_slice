@@ -9,6 +9,15 @@ AHitscanRifle::AHitscanRifle()
     InitializeRecoilCurve();
 }
 
+void AHitscanRifle::Reload()
+{
+    Super::Reload();
+
+    // Without this the spray index only ever climbs. Once it passed the end of
+    // RecoilCurve the weapon stopped applying recoil for the rest of the match.
+    CurrentShotIndex = 0;
+}
+
 void AHitscanRifle::InitializeRecoilCurve()
 {
     // Hardcoded spray pattern. First 3 pull down, then it sweeps right.
